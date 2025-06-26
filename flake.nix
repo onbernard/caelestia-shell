@@ -58,6 +58,9 @@
           pname = "caelestia-shell";
           version = "1.0";
 
+          nativeBuildInputs = with pkgs; [
+            kdePackages.wrapQtAppsHook
+          ];
           propagatedBuildInputs = with pkgs; [
             inputs.quickshell.packages.${system}.default
             inputs.caelestia-cli.packages.${system}.caelestia-cli
