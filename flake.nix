@@ -69,7 +69,7 @@
             app2unit # Applications desktop entries
             cava # Audio visualizer
             curl # For api calls like weather stuff
-            bluze # Bluetooth
+            bluez # Bluetooth
             lm_sensors # System usage
             # For scripts
             bash
