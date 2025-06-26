@@ -25,7 +25,8 @@
           pname = "enhanced-beat-detector";
           version = "1.0";
 
-          src = ./assets;
+          src = ./assets/beat_detector.cpp;
+          dontUnpack = true;
 
           buildInputs = with pkgs; [
             pipewire
@@ -51,7 +52,7 @@
                 -L${pkgs.aubio}/lib \
                 -lpipewire-0.3 -laubio -pthread \
                 -o $out/bin/beat_detector \
-                $src/beat_detector.cpp
+                $src
           '';
         };
         caelestia-shell = pkgs.stdenv.mkDerivation {
@@ -60,31 +61,14 @@
 
           nativeBuildInputs = with pkgs; [
             kdePackages.wrapQtAppsHook
-          ];
-          propagatedBuildInputs = with pkgs; [
-            inputs.quickshell.packages.${system}.default
-            inputs.caelestia-cli.packages.${system}.caelestia-cli
-            enhanced-beat-detector
-            papirus-icon-theme
-            dbus
-            ddcutil # Monitor settings
-            brightnessctl # Monitor settings
-            app2unit # Applications desktop entries
-            cava # Audio visualizer
-            curl # For api calls like weather stuff
-            bluez # Bluetooth
-            lm_sensors # System usage
-            # For scripts
-            bash
-            fishMinimal
-            coreutils
-            findutils
-            gawk
+            makeWrapper
+            qt6.qtbase
           ];
 
           src = ./.;
 
           installPhase = ''
+            mkdir -p $out
             cp -r assets $out/
             cp -r config $out/
             cp -r modules $out/
@@ -92,6 +76,31 @@
             cp -r utils $out/
             cp -r widgets $out/
             cp shell.qml $out/
+
+            mkdir $out/bin
+            cp run.fish $out/bin/run.fish
+            chmod +x $out/bin/run.fish
+            wrapProgram $out/bin/run.fish \
+              --prefix PATH : ${pkgs.lib.makeBinPath [
+              inputs.quickshell.packages.${system}.default
+              inputs.caelestia-cli.packages.${system}.caelestia-cli
+              enhanced-beat-detector
+              pkgs.papirus-icon-theme
+              pkgs.dbus
+              pkgs.ddcutil # Monitor settings
+              pkgs.brightnessctl # Monitor settings
+              pkgs.app2unit # Applications desktop entries
+              pkgs.cava # Audio visualizer
+              pkgs.curl # For api calls like weather stuff
+              pkgs.bluez # Bluetooth
+              pkgs.lm_sensors # System usage
+              # For scripts
+              pkgs.bash
+              pkgs.fishMinimal
+              pkgs.coreutils
+              pkgs.findutils
+              pkgs.gawk
+            ]}
           '';
         };
       in {
