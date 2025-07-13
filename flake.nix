@@ -80,7 +80,7 @@
             mkdir $out/caelestia/bin
             cp run.fish $out/caelestia/bin/run.fish
             chmod +x $out/caelestia/bin/run.fish
-            wrapProgram $out/caelesita/bin/run.fish \
+            wrapProgram $out/caelestia/bin/run.fish \
               --prefix PATH : ${pkgs.lib.makeBinPath [
               inputs.quickshell.packages.${system}.default
               inputs.caelestia-cli.packages.${system}.caelestia-cli
