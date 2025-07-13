@@ -68,19 +68,19 @@
           src = ./.;
 
           installPhase = ''
-            mkdir -p $out
-            cp -r assets $out/
-            cp -r config $out/
-            cp -r modules $out/
-            cp -r services $out/
-            cp -r utils $out/
-            cp -r widgets $out/
-            cp shell.qml $out/
+            mkdir -p $out/caelestia
+            cp -r assets $out/caelestia
+            cp -r config $out/caelestia
+            cp -r modules $out/caelestia
+            cp -r services $out/caelestia
+            cp -r utils $out/caelestia
+            cp -r widgets $out/caelestia
+            cp shell.qml $out/caelestia
 
-            mkdir $out/bin
-            cp run.fish $out/bin/run.fish
-            chmod +x $out/bin/run.fish
-            wrapProgram $out/bin/run.fish \
+            mkdir $out/caelestia/bin
+            cp run.fish $out/caelestia/bin/run.fish
+            chmod +x $out/caelestia/bin/run.fish
+            wrapProgram $out/caelesita/bin/run.fish \
               --prefix PATH : ${pkgs.lib.makeBinPath [
               inputs.quickshell.packages.${system}.default
               inputs.caelestia-cli.packages.${system}.caelestia-cli
